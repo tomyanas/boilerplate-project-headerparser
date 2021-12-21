@@ -28,6 +28,19 @@ app.get("/api/hello", function (req, res) {
 
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+app.set('port', process.env.PORT || 3000);
+var listener = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + listener.address().port);
 });
+
+const objectMicroservice = {}
+
+app.get('/api/whoami', (req, res) => {
+  
+    objectMicroservice['ipaddress'] =  req.ip,
+    objectMicroservice['language'] = req.headers['accept-language'],
+    objectMicroservice['software'] = req.headers['user-agent']
+    res.json(objectMicroservice)
+
+  })
+
